@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter" ng-controller="actionsheetCtrl">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Ionic Blank Starter</h1>
+      </ion-header-bar>
+      <ion-content>
+
+        <!--Click the button to invoke action sheet.
+        The action sheet performs differently in web browser, ios and android
+        -->
+        <button class="button button-block button-positive" ng-click="callActionSheet()">Click to invoke actionsheet</button>
+
+        <button class="button button-block button-stable" ng-click="back()">Back</button>
+
+      </ion-content>
+    </ion-pane>
+
+    <script type="text/javascript">
+      var myApp = angular.module('starter', ['ionic']);
+      myApp.controller('actionsheetCtrl', function($scope, $ionicActionSheet) {
+
+        //Triggered on button click
+        $scope.callActionSheet = function() {
+
+          //Show the action sheet
+          $ionicActionSheet.show({
+            buttons: [
+              {text: 'Action 1'},
+              {text: 'Action 2'}
+            ],
+            destructiveText: 'Delete',
+            titleText: 'Test Action Sheet',
+            cancelText: 'Cancel',
+            cancel: function() {
+              alert('You canceled the action sheet.');
+            },
+            buttonClicked: function(index) {
+              alert('You click button ' + index);
+              return true;
+            },
+            destructiveButtonClicked: function() {
+              alert('Warning: you clicked delete button!');
+              return false;
+            }
+          });
+        };
+
+        //Back to index.html
+        $scope.back = function() {
+          history.back();
+        };
+
+      });
+    </script>
+  </body>
+</html>
