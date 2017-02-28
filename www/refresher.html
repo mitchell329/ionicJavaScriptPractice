@@ -38,16 +38,42 @@
       <ion-header-bar class="bar-stable">
         <h1 class="title">Ionic Blank Starter</h1>
       </ion-header-bar>
-      <ion-content>
+      <ion-content ng-controller="RefreshCtrl">
 
-        <div class="list">
-          
-          <a href="actionSheet.html" class="item">Action Sheet</a>
-          <a href="backDrop.html" class="item">Back Drop</a>
-          <a href="refresher.html" class="item">Refresher</a>
-          
-        </div>
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <ion-list>
+          <ion-item ng-repeat="item in items">{{item}}</ion-item>
+        </ion-list>
+
+        <button class="button button-block button-stable" ng-click="back()">Back</button>
+
       </ion-content>
     </ion-pane>
+
+    <script type="text/javascript">
+      
+      angular.module('starter', ['ionic'])
+
+      .controller('RefreshCtrl', function($scope, $http) {
+        $scope.items = [1, 2, 3];
+
+        $scope.doRefresh = function() {
+          $http.get('/data/new-items')
+            .success(function(newItems) {
+              $scope.items = newItems;
+            })
+            .finally(function() {
+              //Stop the ion-refresher from spinning
+              $scope.$broadcast('scroll.refreshComplete');
+            });
+        };
+
+        $scope.back = function() {
+          history.back();
+        };
+      });
+    </script>
   </body>
 </html>
