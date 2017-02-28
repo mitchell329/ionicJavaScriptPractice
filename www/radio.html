@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Radio Button Practice</h1>
+      </ion-header-bar>
+      <ion-content ng-controller='radioGroupCtrl'>
+
+        <div class="list">
+          
+          <div class="item item-divider">Clientside: {{ language.clientSide }}</div>
+          <ion-radio ng-repeat="item in clientSideList" ng-value="item.value" ng-model="language.clientSide" name="client-side">{{ item.text }}</ion-radio>
+
+          <div class="item item-divider">Serverside: {{ language.serverSide }}</div>
+          <ion-radio ng-repeat="item in serverSideList" ng-value="item.value" ng-model="language.serverSide" name="server-side">{{ item.text }}</ion-radio>
+
+        </div>
+
+        <button class="button button-block button-stable" ng-click="back()">Back</button>
+
+      </ion-content>
+    </ion-pane>
+
+    <script type="text/javascript">
+      angular.module('starter', ['ionic'])
+
+      .controller('radioGroupCtrl', function($scope) {
+
+        $scope.clientSideList = [
+          { text: 'Backbone', value: 'bb'},
+          { text: 'Angular', value: 'ng'},
+          { text: 'React', value: 'ra'}
+        ];
+
+        $scope.serverSideList = [
+          { text: 'PHP', value: 'php'},
+          { text: 'ASP', value: 'asp'},
+          { text: 'Ruby', value: 'rb'}
+        ];
+
+        $scope.language = {
+          clientSide : 'bb',
+          serverSide : 'php'
+        };
+
+        $scope.back = function() {
+          history.back();
+        };
+
+      });
+
+    </script>
+  </body>
+</html>
