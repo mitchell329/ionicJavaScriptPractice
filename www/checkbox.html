@@ -36,19 +36,44 @@
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+        <h1 class="title">Checkbox Practice</h1>
       </ion-header-bar>
-      <ion-content>
+      <ion-content ng-controller="checkboxCtrl">
 
-        <div class="list">
-          
-          <a href="actionSheet.html" class="item">Action Sheet</a>
-          <a href="backDrop.html" class="item">Back Drop</a>
-          <a href="refresher.html" class="item">Refresher</a>
-          <a href="checkbox.html" class="item">Checkbox</a>
-          
-        </div>
+        <ion-checkbox ng-model="checkboxModel.html5">HTML5</ion-checkbox>
+        <ion-checkbox ng-model="checkboxModel.css3">CSS3</ion-checkbox>
+        <ion-checkbox ng-model="checkboxModel.javascript">JavaScript</ion-checkbox>
+
+        <p>HTML5: {{checkboxModel.html5}}</p>
+        <p>CSS3: {{checkboxModel.css3}}</p>
+        <p>JavaScript: {{checkboxModel.javascript}}</p>
+
+        <button class="button button-block button-stable" ng-click="back()">Back</button>
+
       </ion-content>
     </ion-pane>
+
+    <script type="text/javascript">
+      
+      angular.module('starter', ['ionic'])
+
+      .config(function($ionicConfigProvider) {
+        $ionicConfigProvider.form.checkbox("circle");
+      })
+
+      .controller('checkboxCtrl', function($scope) {
+
+        $scope.checkboxModel = {
+          html5: false,
+          css3: false,
+          javascript: false,
+        };
+
+        $scope.back = function() {
+          history.back();
+        }
+      });
+
+    </script>
   </body>
 </html>
