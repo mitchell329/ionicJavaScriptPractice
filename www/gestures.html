@@ -38,21 +38,24 @@
       <ion-header-bar class="bar-stable">
         <h1 class="title">Gestures and Events</h1>
       </ion-header-bar>
-      <ion-content ng-controller="gesturesCtrl" has-bouncing="true" overflow-scroll="false">
+      <ion-content ng-controller="gesturesCtrl" has-bouncing="true" overflow-scroll="false" on-swipe-right="back()">
 
         <div class="list">
-          
-          <button class="item button button-block button-calm" on-hold="onHold()" on-tap="onTap()" on-double-tap="onDoubleTap()" on-touch="onTouch()" on-release="onRelease()" on-drag="onDrag()">Try different gestures</button>
+
+          <button class="item button button-block button-calm" on-hold="onHold()" on-tap="onTap()" on-double-tap="onDoubleTap()" on-touch="onTouch()" on-release="onRelease()" on-drag="onDrag($event)">Try different gestures</button>
 
           <div class="item">
             Gesture Information:
             <br><br>
+            <pre>Coordinates: {{ x + ', ' + y }}</pre>
             <pre>{{ event | json }}</pre>
           </div>
 
         </div>
 
         <button class="button button-block" ng-click="back()">Back</button>
+
+        <p>Swipe right to return</p>
 
       </ion-content>
     </ion-pane>
@@ -85,14 +88,8 @@
           $scope.event.push({ Gesture: "Release" });
         };
 
-        $scope.onDrag = function() {
-          //$scope.event.push({ Gesture: "Drag" });
-          document.onmousemove = handleMouseMove;
-          function handleMouseMove(myE) {
-            myE = event || window.event;
-            $scope.event = [{ positionX: myE.positionX },
-                            { positionY: myE.positionY }];
-          };
+        $scope.onDrag = function(e) {
+          $scope.event = [{ X: e.gesture.deltaX, Y: e.gesture.deltaY }];
         };
 
         $scope.back = function() {
