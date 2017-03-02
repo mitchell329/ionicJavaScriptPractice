@@ -36,25 +36,31 @@
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+        <h1 class="title">Keyboard Practice</h1>
       </ion-header-bar>
-      <ion-content>
+      <ion-content ng-controller="keyboardCtrl">
 
-        <div class="list">
-          
-          <a href="actionSheet.html" class="item">Action Sheet</a>
-          <a href="backDrop.html" class="item">Back Drop</a>
-          <a href="refresher.html" class="item">Refresher</a>
-          <a href="checkbox.html" class="item">Checkbox</a>
-          <a href="radio.html" class="item">RadioButton Group</a>
-          <a href="toggle.html" class="item">Toggle</a>
-          <a href="gestures.html" class="item">Gestures and Events</a>
-          <a href="headerfooter.html" class="item">Header and Footer</a>
-          <a href="keyboard.html" class="item">Keyboard</a>
-          <a href="test.html" class="item">Test</a>
-          
-        </div>
-      </ion-content>
+        <input type="text" name="txtNormal" ng-repeat=" x in numbers " placeholder="Input {{ x }}">
+        <input type="text" name="txtSpecial" placeholder="Input special">
+        
+        <button class="button button-block hide-on-keyboard-open" ng-click="back()">Back</button>
+
     </ion-pane>
+
+    <script type="text/javascript">
+      
+      angular.module('starter', ['ionic'])
+
+      .controller('keyboardCtrl', function($scope) {
+
+        $scope.numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        $scope.back = function() {
+          history.back();
+        };
+
+      });
+
+    </script>
   </body>
 </html>
