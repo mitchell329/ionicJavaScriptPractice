@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter" ng-controller="listCtrl">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <div class="buttons">
+          <button class="button button-icon icon ion-ios-trash-outline" ng-click="toggleDelete()"></button>
+        </div>
+        <h1 class="title">List Practice</h1>
+        <div class="buttons">
+          <button class="button button-icon icon ion-ios-shuffle" ng-click="toggleReorder()"></button>
+        </div>
+      </ion-header-bar>
+      <ion-content on-swipe-right="onSwipeRight()">
+
+        <ion-list show-delete="showDelete" show-reorder="showReorder">
+          
+          <ion-item collection-repeat="item in myList" item="item" href="#/item/{{ item.id }}" class="item-remove-animate">
+            Item {{ item.id }}
+            <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(item)"></ion-delete-button>
+            <ion-option-button class="button-assertive" ng-click="edit(item)">Edit</ion-option-button>
+            <ion-option-button class="button-calm" ng-click="share(item)">Share</ion-option-button>
+            <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(item, $fromIndex, $toIndex)"></ion-reorder-button>
+          </ion-item>
+
+        </ion-list>
+
+      </ion-content>
+    </ion-pane>
+
+    <script type="text/javascript">
+      
+      angular.module('starter', ['ionic'])
+
+      .controller('listCtrl', function($scope, $http) {
+
+        $scope.showDelete = false;
+        $scope.showReorder = false;
+
+        $scope.toggleDelete = function() {
+          $scope.showDelete = !$scope.showDelete;
+          $scope.showReorder = false;
+        };
+
+        $scope.toggleReorder = function() {
+          $scope.showReorder = !$scope.showReorder;
+          $scope.showDelete = false;
+        };
+
+        // $http.get('/data/myList.json')
+        // .success(function(object) {
+        //   $scope.myList = object;
+        // });
+
+        $scope.myList = [
+                          { id: 0 },
+                          { id: 1 },
+                          { id: 2 },
+                          { id: 3 },
+                          { id: 4 },
+                          { id: 5 }, 
+                          { id: 6 },
+                          { id: 7 },
+                          { id: 8 },
+                          { id: 9 },
+                          { id: 10 },
+                          { id: 11 },
+                          { id: 12 },
+                          { id: 13 },
+                          { id: 14 },
+                          { id: 15 }, 
+                          { id: 16 },
+                          { id: 17 },
+                          { id: 18 },
+                          { id: 19 },
+                          { id: 20 },
+                          { id: 21 },
+                          { id: 22 },
+                          { id: 23 },
+                          { id: 24 },
+                          { id: 25 }, 
+                          { id: 26 },
+                          { id: 27 },
+                          { id: 28 },
+                          { id: 29 },
+                          { id: 30 },
+                          { id: 31 },
+                          { id: 32 },
+                          { id: 33 },
+                          { id: 34 },
+                          { id: 35 }, 
+                          { id: 36 },
+                          { id: 37 },
+                          { id: 38 },
+                          { id: 39 },
+                          { id: 40 },
+                          { id: 41 },
+                          { id: 42 },
+                          { id: 43 },
+                          { id: 44 },
+                          { id: 45 }, 
+                          { id: 46 },
+                          { id: 47 },
+                          { id: 48 },
+                          { id: 49 }
+                        ];
+
+        $scope.onItemDelete = function(item) {
+          $scope.myList.splice($scope.myList.indexOf(item), 1);
+        };
+
+        $scope.edit = function(item) {
+          alert('Edit item: ' + item.id);
+        };
+
+        $scope.share = function(item) {
+          alert('Share item: ' + item.id);
+        };
+
+        $scope.reorderItem = function(item, fromIndex, toIndex) {
+          $scope.myList.splice(fromIndex, 1);
+          $scope.myList.splice(toIndex, 0, item);
+        };
+
+        $scope.onSwipeRight = function() {
+          history.back();
+        };
+
+      });
+    </script>
+  </body>
+</html>
