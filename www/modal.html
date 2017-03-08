@@ -38,22 +38,25 @@
       <ion-header-bar class="bar-stable">
         <h1 class="title">Modal Practice</h1>
         <div class="buttons">
-          <button class="button button-icon ion-compose" ng-click="modal.show()"></button>
+          <button class="button button-icon ion-compose" ng-click="openModal(1)"></button>
         </div>
       </ion-header-bar>
       <ion-content>
 
         <ion-list>
-          <ion-item ng-repeat="contact in contacts">{{contact.name}}</ion-item>
+          <ion-item ng-repeat="contact in contacts">
+            {{contact.name}}
+            <ion-option-button class="button-positive ion-edit" ng-click="openModal(2)"></ion-option-button>
+          </ion-item>
         </ion-list>
 
       </ion-content>
 
-      <script type="text/ng-template" id="templates/modal.html">
+      <script type="text/ng-template" id="modal.html">
         <ion-modal-view>
           <ion-header-bar class="bar bar-header bar-positive">
             <h1 class="title">New Contact</h1>
-            <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+            <button class="button button-clear button-primary" ng-click="closeModal(1)">Cancel</button>
           </ion-header-bar>
           <ion-content class="padding">
             <div class="list">
@@ -87,17 +90,36 @@
           { name: 'Amy Hou'}
         ];
 
-        $ionicModal.fromTemplateUrl('templates/modal.html',
+        $ionicModal.fromTemplateUrl('modal.html',
         {
+          id: '1',
           scope: $scope
         }).then(function(modal) {
-          $scope.modal = modal;
+          $scope.modalCreate = modal;
         });
+
+        $ionicModal.fromTemplateUrl('/templates/modalEdit.html', {
+          id: '2',
+          scope: $scope
+        }).then(function(modal) {
+          $scope.modalEdit = modal;
+        });
+
+        $scope.openModal = function(index) {
+          if (index == 1) {$scope.modalCreate.show();}
+          else {$scope.modalEdit.show();}
+        };
+
+        $scope.closeModal = function(index) {
+          if (index == 1) {$scope.modalCreate.hide();}
+          else {$scope.modalEdit.hide();}
+        };
 
         $scope.createContact = function(u) {
           $scope.contacts.push({ name: u.firstname + ' ' + u.lastname});
           $scope.modal.hide();
         };
+
       });
     </script>
   </body>
