@@ -38,25 +38,29 @@
       <ion-header-bar class="bar-stable">
         <h1 class="title">Modal Practice</h1>
         <div class="buttons">
-          <button class="button button-icon ion-compose" ng-click="openModal(1)"></button>
+          <!-- Pass an argument to openModal() method to determin which modal to show. -->
+          <button class="button button-icon ion-compose" ng-click="openModal('new')"></button>
         </div>
       </ion-header-bar>
       <ion-content>
 
         <ion-list>
-          <ion-item ng-repeat="contact in contacts">
+          <ion-item ng-repeat="contact in contacts" item="contact">
             {{contact.name}}
-            <ion-option-button class="button-positive ion-edit" ng-click="openModal(2)"></ion-option-button>
+            <ion-option-button class="button-positive ion-edit" ng-click="edit(contact)"></ion-option-button>
           </ion-item>
         </ion-list>
 
       </ion-content>
 
       <script type="text/ng-template" id="modal.html">
+
+        <!-- the <ion-modal-view> can reside either in <script> tag in the same file, or in a seperate html file -->
+
         <ion-modal-view>
           <ion-header-bar class="bar bar-header bar-positive">
             <h1 class="title">New Contact</h1>
-            <button class="button button-clear button-primary" ng-click="closeModal(1)">Cancel</button>
+            <button class="button button-clear button-primary" ng-click="closeModal('new')">Cancel</button>
           </ion-header-bar>
           <ion-content class="padding">
             <div class="list">
@@ -85,39 +89,66 @@
       .controller('modalCtrl', function($scope, $ionicModal) {
 
         $scope.contacts = [
-          { name: 'Gordon Freeman' },
-          { name: 'Mitchell Yuan' },
-          { name: 'Amy Hou'}
-        ];
+          { id: 0, name: 'Gordon Freeman' },
+          { id: 1, name: 'Mitchell Yuan' },
+          { id: 2, name: 'Amy Hou'}
+        ];  // The "id" property will be used in edit() method to determin which contact is to be edited.
 
         $ionicModal.fromTemplateUrl('modal.html',
         {
           id: '1',
-          scope: $scope
+          scope: $scope // Give the modal access to the parent scope
         }).then(function(modal) {
-          $scope.modalCreate = modal;
+          $scope.modalCreate = modal; // Create a modal controller with one template.
         });
 
         $ionicModal.fromTemplateUrl('/templates/modalEdit.html', {
           id: '2',
-          scope: $scope
+          scope: $scope //Give the modal access to the parent scope, so the modal can bind data with $scope variables through ng-model or {{expression}}. In this case, the modal can read the firstname and lastname of a contact from parent $scope.
         }).then(function(modal) {
-          $scope.modalEdit = modal;
+          $scope.modalEdit = modal; // Create another modal controller with another template.
         });
 
+        // Check the parameter to determin which modal to show.
         $scope.openModal = function(index) {
-          if (index == 1) {$scope.modalCreate.show();}
+          if (index == 'new') {$scope.modalCreate.show();}
           else {$scope.modalEdit.show();}
         };
 
         $scope.closeModal = function(index) {
-          if (index == 1) {$scope.modalCreate.hide();}
+          if (index == 'new') {$scope.modalCreate.hide();}
           else {$scope.modalEdit.hide();}
         };
 
+        $scope.edit = function(contact) {
+          $scope.fullname = contact.name.split(" ");
+          console.log("fullname: " + $scope.fullname + ", id: " + contact.id);
+          $scope.contact = {
+            firstname: $scope.fullname[0],
+            lastname: $scope.fullname[1],
+            id: contact.id
+          };  // Create a new variable with the selected item. The variable is binded in modalEdit view.
+          $scope.openModal('edit');
+        };
+
         $scope.createContact = function(u) {
-          $scope.contacts.push({ name: u.firstname + ' ' + u.lastname});
-          $scope.modal.hide();
+          var length = $scope.contacts.length;
+          var newID = $scope.contacts[length - 1].id + 1; // Must create a new id for the new contact. Otherwise the new contact cannot be edit because the id is undefined.
+          $scope.contacts.push({ id: newID, name: u.firstname + ' ' + u.lastname });
+          $scope.modalCreate.hide();
+        };
+
+        $scope.saveContact = function(selectedContact) {
+          var length = $scope.contacts.length;
+          for(var i = 0; i < length; i++) {
+            console.log("contact id: " + $scope.contacts[i].id + ", selected contact id: " + selectedContact.id);
+            if ($scope.contacts[i].id == selectedContact.id) {
+              $scope.contacts[i].name = selectedContact.firstname + " " + selectedContact.lastname;
+              break;
+            }
+          }
+          console.log($scope.contacts);
+          $scope.modalEdit.hide();
         };
 
       });
