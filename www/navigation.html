@@ -137,7 +137,7 @@
       
       angular.module('starter', ['ionic'])
 
-      .config(function($stateProvider, $urlRouterProvider) {
+      .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
 
         $stateProvider
           .state('tabs', {
@@ -197,11 +197,16 @@
           });
 
           $urlRouterProvider.otherwise('/tab/home');
+
+          // Set the tab bar position at the bottom for all platforms.
+          // Tab bar is on the top on Android device by default.
+          $ionicConfigProvider.tabs.position('bottom');
       })
 
       .controller('HomeTabCtrl', function($scope) {
         console.log('HomeTabCtrl');
 
+        // The $scope belongs to 'HomeTabCtrl'. So it listens to the $ionicView events of templates/home.html view.
         $scope.$on('$ionicView.loaded', function(event, data) {
           console.log('State Params: ', data);
         });
@@ -220,6 +225,7 @@
 
       })
 
+      // The $scope belongs to "FactsCtrl". So it listens to the $ionicView events of "templates/facts.html" view
       .controller('FactsCtrl', function($scope) {
         $scope.$on('$ionicView.loaded', function(event, data) {
           console.log('Facts View Event: ', event);
