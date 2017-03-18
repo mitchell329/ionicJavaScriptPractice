@@ -37,6 +37,9 @@
     <ion-pane>
 
       <ion-nav-bar class="bar-positive">
+        <ion-nav-buttons side="right">
+          <a href="index.html" class="button">Return</a>
+        </ion-nav-buttons>
         <ion-nav-back-button>
         </ion-nav-back-button>
       </ion-nav-bar>
@@ -155,7 +158,8 @@
             url: '/facts',
             views: {
               'home-tab': {
-                templateUrl: 'templates/facts.html'
+                templateUrl: 'templates/facts.html',
+                controller: 'FactsCtrl'
               }
             }
           })
@@ -197,8 +201,42 @@
 
       .controller('HomeTabCtrl', function($scope) {
         console.log('HomeTabCtrl');
+
+        $scope.$on('$ionicView.loaded', function(event, data) {
+          console.log('State Params: ', data);
+        });
+
+        $scope.$on('$ionicView.enter', function(event, data) {
+          console.log('Event: ', event);
+          console.log('Data: ', data);
+        });
+
+        $scope.$on('$ionicView.leave', function(event, data) {
+          console.log('Event: ', event);
+          console.log('Data: ', data);
+        });
+
+        
+
+      })
+
+      .controller('FactsCtrl', function($scope) {
+        $scope.$on('$ionicView.loaded', function(event, data) {
+          console.log('Facts View Event: ', event);
+          console.log('Facts View Data: ', data);
+        });
+
+        $scope.$on('$ionicView.enter', function(event, data) {
+          console.log('Facts View Event: ', event);
+          console.log('Facts View Data: ', data);
+        });
+
+        $scope.$on('$ionicView.leave', function(event, data) {
+          console.log('Facts View Event: ', event);
+          console.log('Facts View Data: ', data);
+        });
       });
-      
+
     </script>
   </body>
 </html>
