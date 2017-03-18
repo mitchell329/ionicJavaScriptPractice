@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane ng-controller="popoverCtrl">
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Popover Practice</h1>
+      </ion-header-bar>
+      <ion-content>
+
+        <div class="list">
+          
+          <!-- In order to show information of the clicked item, item.id must be passed as another argument in addition to $event -->
+          <div class="item" ng-click="showPopover($event, item.id)" ng-repeat="item in items">{{item.id}}</div>
+
+        </div>
+        <button class="button button-block button-positive" ng-click="showPopover($event)">Click to show popover!</button>
+        <a href="index.html" class="button button-block">Return</a>
+
+      </ion-content>
+
+      <script type="text/ng-template" id="my-popover.html">
+        <ion-popover-view>
+          <ion-header-bar>
+            <h1 class="title">My Popover Title</h1>
+          </ion-header-bar>
+          <ion-content>
+            <p>Hello! {{selectedItem.name}}</p>
+            <button class="button button-positive" ng-click="closePopover()">OK</button>
+          </ion-content>
+        </ion-popover-view>
+      </script>
+
+    </ion-pane>
+
+    <script type="text/javascript">
+      angular.module('starter', ['ionic'])
+
+      .controller('popoverCtrl', function($scope, $ionicPopover) {
+
+        $scope.items = [
+          {id: 1, name: 'BMW'},
+          {id: 2, name: 'Audi'},
+          {id: 3, name: 'Benz'}
+        ];
+
+        
+
+        $ionicPopover.fromTemplateUrl('my-popover.html', {
+          scope: $scope   // Pass parent's scope to the popover
+        }).then(function(popover) {
+          $scope.popover = popover;
+        });
+
+        // $scope.showName = function(id) {
+        //   $scope.selectedItem = $scope.items.find(function(selectedItem) {
+        //     return selectedItem.id == id;
+        //   });
+        //   console.log($scope.selectedItem);
+
+        //   $scope.popover.show($event);
+        // };
+
+        // Take one more parameter id to specify which item's information is going to be displayed.
+        $scope.showPopover = function($event, id) {
+
+          // Find the selected item in the items array according to the id. Use JavaScript Array find() mothed to find the matching item. The find() method returns the value of the first element in an array that pass a test (provided as a function). The find() method executes the function once for each element present in the array. The element is passed to the function as argument. If it finds an array element where the function returns a true value, find() returns the value of that array element (and does not check the remaining values.
+          // JavaScript Array find() method refer to: https://www.w3schools.com/jsref/jsref_find.asp
+          $scope.selectedItem = $scope.items.find(function(selectedItem) {
+            return selectedItem.id == id;
+          });
+          console.log($scope.selectedItem);
+
+          // Show the popover
+          $scope.popover.show($event).then(function(){
+            console.log('Popover has been showed. This is called from the promise returned by show() method.');
+          });
+        };
+
+        $scope.closePopover = function() {
+          $scope.popover.hide();
+        };
+
+        $scope.$on('popover.hidden', function() {
+          console.log('Popover has been hidden. This is called from popover.hidden event.');
+        });
+
+        $scope.$on('popover.removed', function() {
+          console.log('Popover has been removed.');
+        });
+
+        // The popover must be cleanup in $destroy event to release memory.
+        $scope.$on('$destroy', function() {
+          // console.log('$destroy event triggered.');
+          // alert('$destroy event triggered.');
+          $scope.popover.remove();
+        });
+
+      });
+    </script>
+  </body>
+</html>
