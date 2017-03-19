@@ -37,19 +37,40 @@
   <body ng-app="starter">
 
     <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <ion-content ng-controller="testCtrl">
 
-        <div class="list">
+      <ion-side-menus>
+        
+        <ion-side-menu side="left">
           
-          <h1 ng-mousemove="myFunc($event)">Mouse Over Me!</h1>
+          <ion-header-bar class="bar-stable">
+            <h1 class="title">Menu</h1>
+          </ion-header-bar>
 
-          <p>Coordinates: {{ x + ', ' + y }}</p>
-          
-        </div>
-      </ion-content>
+          <ion-content>
+            <div class="list">
+              <a href="side-menu.html" class="item">Side Menue</a>
+              <a href="text.html" class="item">Test</a>
+            </div>
+          </ion-content>
+        </ion-side-menu>
+
+        <ion-side-menu-content>
+          <ion-header-bar class="bar-stable">
+            <h1 class="title">Ionic Blank Starter</h1>
+          </ion-header-bar>
+          <ion-content ng-controller="testCtrl">
+
+            <div class="list">
+              
+              <h1 ng-mousemove="myFunc($event)">Mouse Over Me!</h1>
+
+              <p>Coordinates: {{ x + ', ' + y }}</p>
+              
+            </div>
+          </ion-content>
+        </ion-side-menu-content>
+      </ion-side-menus>
+      
     </ion-pane>
 
     <script type="text/javascript">
