@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Slide</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- un-comment this code to enable service worker
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js')
+          .then(() => console.log('service worker installed'))
+          .catch(err => console.log('Error', err));
+      }
+    </script>-->
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Slide Practice</h1>
+        <div class="buttons" side="right">
+          <a href="index.html" class="button">Return</a>
+        </div>
+      </ion-header-bar>
+      <ion-content ng-controller="sliderCtrl">
+
+        <ion-slides options="options" slider="data.slider">
+          <ion-slide-page>
+            <div class="box blue"><h1>BLUE</h1></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box yellow"><h1>YELLOW</h1></div>
+          </ion-slide-page>
+          <ion-slide-page>
+            <div class="box pink"><h1>PINK</h1></div>
+          </ion-slide-page>
+        </ion-slides>
+
+        <!-- ion-slide-box on-slide-changed="slideHasChanged($index)" active-slide="myActiveSlide">
+          <ion-slide>
+            <div class="box blue"><h1>BLUE</h1></div>
+          </ion-slide>
+          <ion-slide>
+            <div class="box yellow"><h1>YELLOW</h1></div>
+          </ion-slide>
+          <ion-slide>
+            <div class="box pink"><h1>PINK</h1></div>
+          </ion-slide>
+        </ion-slide-box>
+      </ion-content -->
+
+      <script type="text/javascript">
+        angular.module('starter', ['ionic'])
+
+        .controller('sliderCtrl', function($scope) {
+          $scope.options = {
+            loop: true,
+            
+            speed: 500
+          };
+
+          $scope.$on('$ionicSlides.sliderInitialized', function(event, data) {
+            $scope.slider = data.slider;
+            console.log('slider initialized.', data);
+          });
+
+          $scope.$on('$ionicSlides.slideChangeStart', function(event, data) {
+            console.log('slide change is beginning', event);
+          });
+
+          $scope.$on('$ionicSlides.slideChangeEnd', function(event, data) {
+            console.log('active slide index:', data.slider.activeIndex);
+            console.log('previous slide index:', data.slider.previousIndex);
+          });
+        });
+      </script>
+    </ion-pane>
+  </body>
+</html>
